@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏆 College Management System: Executive Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sky-50: #f0f9ff;
+            --sky-100: #e0f2fe;
+            --sky-400: #38bdf8;
+            --sky-500: #0ea5e9;
+            --sky-600: #0284c7;
+            --sky-950: #082f49;
+            --indigo-600: #4f46e5;
+            --indigo-950: #1e1b4b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: #f8fafc; 
+            color: var(--sky-950); 
+            line-height: 1.6;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 80px;
+            border-radius: 4rem;
+            box-shadow: 0 50px 100px -20px rgba(12, 74, 110, 0.1);
+            border: 1px solid var(--sky-100);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 2px solid var(--sky-50);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: var(--sky-50);
+            border: 1px solid var(--sky-100);
+            color: var(--sky-600);
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .accent { color: var(--sky-500); }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            margin-top: 50px;
+            margin-bottom: 25px;
+            color: var(--indigo-950);
+            border-left: 6px solid var(--sky-500);
+            padding-left: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 30px 0;
+            border: 1px solid var(--sky-100);
+            border-radius: 2rem;
+            overflow: hidden;
+        }
+
+        th {
+            background: var(--sky-50);
+            padding: 20px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--sky-600);
+        }
+
+        td {
+            padding: 20px;
+            border-bottom: 1px solid var(--sky-50);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .method {
+            background: var(--sky-950);
+            color: white;
+            padding: 40px;
+            border-radius: 3rem;
+            margin-top: 40px;
+        }
+
+        .method h3 {
+            font-size: 18px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            color: var(--sky-400);
+        }
+
+        .step {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .step-num {
+            width: 30px; 
+            height: 30px; 
+            background: rgba(255,255,255,0.1); 
+            border-radius: 10px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: 900;
+            flex-shrink: 0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            color: var(--sky-400);
+            font-weight: 900;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+        }
+
+        @media print {
+            body { padding: 0; background: white; }
+            .container { box-shadow: none; border: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container text-center">
+        <header>
+            <div class="badge">Flagship Era v10.0</div>
+            <h1>College Management <span class="accent">System.</span></h1>
+            <p style="font-weight: 700; color: var(--sky-400); font-style: italic;">Institutional Executive Command Manual</p>
+        </header>
+
+        <section>
+            <h2>🔑 I. Demo Credentials (Showcase)</h2>
+            <p style="font-weight: 700; opacity: 0.6; font-style: italic;">Use these identities to demonstrate full institutional capabilities.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Institutional Persona</th>
+                        <th>User Email</th>
+                        <th>Master Password</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Master Super Admin</td>
+                        <td style="color: var(--sky-600)">admin@college.edu</td>
+                        <td>admin@123</td>
+                    </tr>
+                    <tr>
+                        <td>Principal Faculty</td>
+                        <td style="color: var(--sky-600)">teacher@college.edu</td>
+                        <td>teacher@123</td>
+                    </tr>
+                    <tr>
+                        <td>Scholar Node</td>
+                        <td style="color: var(--sky-600)">student@college.edu</td>
+                        <td>student@123</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>🔳 II. Module Breakdown</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                <div style="padding: 20px; border: 1px solid var(--sky-50); border-radius: 20px;">
+                    <p style="font-weight: 900; font-size: 12px; text-transform: uppercase; color: var(--sky-500);">IDENTITY HUB</p>
+                    <p style="font-size: 14px; font-weight: 600;">Students upload real identity photos with professional previews and printable ID cards.</p>
+                </div>
+                <div style="padding: 20px; border: 1px solid var(--sky-50); border-radius: 20px;">
+                    <p style="font-weight: 900; font-size: 12px; text-transform: uppercase; color: var(--sky-500);">FACULTY LAB</p>
+                    <p style="font-size: 14px; font-weight: 600;">Teachers filter by Class-Section (CS-A, etc.) and audit scholar documents directly.</p>
+                </div>
+                <div style="padding: 20px; border: 1px solid var(--sky-50); border-radius: 20px;">
+                    <p style="font-weight: 900; font-size: 12px; text-transform: uppercase; color: var(--sky-500);">NETWORKS</p>
+                    <p style="font-size: 14px; font-weight: 600;">Master Admins provision secondary colleges and track campus usage longevity.</p>
+                </div>
+                <div style="padding: 20px; border: 1px solid var(--sky-50); border-radius: 20px;">
+                    <p style="font-weight: 900; font-size: 12px; text-transform: uppercase; color: var(--sky-500);">FISCAL HUB</p>
+                    <p style="font-size: 14px; font-weight: 600;">Interactive Scan & Pay (QR) and Global Card simulators for tuition clearing.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="method">
+            <h3>🛡️ Institutional Identity Challenge</h3>
+            <div class="step">
+                <div class="step-num">!</div>
+                <div>
+                   <p style="font-weight: 900; color: white;">IDENTITY NODE AUDIT</p>
+                   <p style="font-size: 13px; opacity: 0.6; font-weight: 600;">The system will first challenge your identity. This ensures total institutional security.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">A</div>
+                <div>
+                   <p style="font-weight: 900; color: white;">MASTER KEY (RAGHVENDRA)</p>
+                   <p style="font-size: 13px; opacity: 0.6; font-weight: 600;">Entering 'raghvendra' unlocks the Master Executive Mode. Normal system data persists.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">B</div>
+                <div>
+                   <p style="font-weight: 900; color: white;">DELEGATE NODE (OTHERS)</p>
+                   <p style="font-size: 13px; opacity: 0.6; font-weight: 600;">Any other name launches the 'Fresh Tenant' protocol. You must provision your own institute from a blank slate.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="method">
+            <h3>🚀 III. 'Go Live' Handover Protocol</h3>
+            <div class="step">
+                <div class="step-num">1</div>
+                <div>
+                   <p style="font-weight: 900; color: white;">INITIATION</p>
+                   <p style="font-size: 13px; opacity: 0.6; font-weight: 600;">Open Settings > Danger Zone and launch the Go Live finalization protocol.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div>
+                   <p style="font-weight: 900; color: white;">PURGE & SECURE</p>
+                   <p style="font-size: 13px; opacity: 0.6; font-weight: 600;">Enter production admin credentials. The system will permanently purge demo data.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div>
+                   <p style="font-weight: 900; color: white;">PRISTINE LAUNCH</p>
+                   <p style="font-size: 13px; opacity: 0.6; font-weight: 600;">The system opens the Guide Manual and launches as a blank institutional node.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="footer">
+            Institutional Merit Verified • Audit successful • Flagship Era
+        </div>
+    </div>
+</body>
+</html>

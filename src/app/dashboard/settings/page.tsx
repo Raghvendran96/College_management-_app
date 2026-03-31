@@ -25,6 +25,14 @@ import { Badge } from "../../../components/ui/badge"
 import { Input } from "../../../components/ui/input"
 import { Label } from "../../../components/ui/label"
 import { motion, AnimatePresence } from "framer-motion"
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogTrigger,
+  DialogDescription
+} from "../../../components/ui/dialog"
 
 export default function SettingsPage() {
   const router = useRouter()
@@ -52,9 +60,25 @@ export default function SettingsPage() {
     setIsMasterAdmin(role === "admin") // In demo, we assume the logged-in admin is the master
   }, [])
 
-  const handleGoLive = () => {
-    setShowGoLiveModal(true)
+  const [showIdentityGate, setShowIdentityGate] = React.useState(true)
+  const [userName, setUserName] = React.useState("")
+  const [userPurpose, setUserPurpose] = React.useState("")
+
+  const handleIdentityVerify = () => {
+    if (userName.toLowerCase() === "raghvendra") {
+      setShowIdentityGate(false)
+      alert("Master Executive Access Verified: Proceeding as Global Owner.")
+    } else {
+      document.cookie = "isFreshInstall=true; path=/"
+      setShowIdentityGate(false)
+      alert(`New Institutional Node Detected: Welcome ${userName}. System is launching in 'Clean State' for ${userPurpose}. Please use the Manual for seeding.`)
+    }
   }
+
+  React.useEffect(() => {
+    const fresh = document.cookie.split('; ').find(row => row.startsWith('isFreshInstall='))?.split('=')[1]
+    if (fresh === "true") setShowIdentityGate(false)
+  }, [])
 
   const finalizeSystem = () => {
     if (!config.adminUser || !config.adminPass) return alert("Please set new Super Admin credentials.")
@@ -80,8 +104,60 @@ export default function SettingsPage() {
     }, 2500)
   }
 
+  const handleGoLive = () => {
+    setShowGoLiveModal(true)
+  }
+
   return (
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-1000 pb-32">
+       {/* IDENTITY VERIFICATION PORTAL (GATE) */}
+       <AnimatePresence>
+          {showIdentityGate && (
+             <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-slate-950/95 backdrop-blur-3xl">
+                <motion.div 
+                   initial={{ scale: 0.9, opacity: 0 }}
+                   animate={{ scale: 1, opacity: 1 }}
+                   className="relative w-full max-w-lg bg-sky-950 border border-sky-900 rounded-[3.5rem] shadow-2xl p-12 text-white space-y-8"
+                >
+                   <div className="text-center space-y-4">
+                      <div className="w-16 h-16 bg-sky-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6 text-sky-400 border border-sky-500/20">
+                         <ShieldCheck className="h-8 w-8" />
+                      </div>
+                      <h3 className="text-4xl font-black italic uppercase tracking-tighter">Identity <span className="text-sky-400">Node Audit.</span></h3>
+                      <p className="text-white/40 font-bold uppercase text-[10px] tracking-[0.4em] italic">Institutional Persona Verification</p>
+                   </div>
+
+                   <div className="space-y-6">
+                      <div className="space-y-2">
+                         <Label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-1 italic">Enter User Identity</Label>
+                         <Input 
+                            value={userName} 
+                            onChange={(e) => setUserName(e.target.value)}
+                            placeholder="Your Name..." 
+                            className="h-14 rounded-2xl bg-white/5 border-white/10 focus-visible:ring-sky-500 font-bold text-white italic" 
+                         />
+                      </div>
+                      <div className="space-y-2">
+                         <Label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-1 italic">Institutional Purpose</Label>
+                         <Input 
+                            value={userPurpose} 
+                            onChange={(e) => setUserPurpose(e.target.value)}
+                            placeholder="E.g. Academic Showcase / Global Audit" 
+                            className="h-14 rounded-2xl bg-white/5 border-white/10 focus-visible:ring-sky-500 font-bold text-sky-400 italic" 
+                         />
+                      </div>
+                   </div>
+
+                   <Button 
+                      onClick={handleIdentityVerify}
+                      className="w-full h-14 rounded-2xl bg-sky-500 hover:bg-white text-white hover:text-sky-950 font-black italic uppercase tracking-widest text-[10px] shadow-2xl shadow-sky-500/20 transition-all active:scale-95"
+                   >
+                      Finalize Persona Synapse
+                   </Button>
+                </motion.div>
+             </div>
+          )}
+       </AnimatePresence>
        {/* MASTER SETTINGS HEADER */}
        <div className="relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-slate-900 to-indigo-950 p-12 text-white shadow-2xl">
           <div className="relative z-10 space-y-4">
@@ -172,13 +248,57 @@ export default function SettingsPage() {
                        </CardTitle>
                        <CardDescription className="text-sky-300 font-bold uppercase text-[10px] tracking-[0.4em] italic pt-2">Spawn & Manage Secondary Campus Nodes</CardDescription>
                     </div>
-                    <Button className="rounded-[1.5rem] bg-white text-sky-950 font-black italic uppercase text-[10px] tracking-widest px-10 h-14 shadow-2xl hover:bg-sky-400 transition-all active:scale-95 group">
-                       <Plus className="h-4 w-4 mr-2 group-hover:rotate-90 transition-transform" /> Provision New Node
-                    </Button>
+                    
+                    <Dialog>
+                       <DialogTrigger asChild>
+                          <Button className="rounded-[1.5rem] bg-white text-sky-950 font-black italic uppercase text-[10px] tracking-widest px-10 h-14 shadow-2xl hover:bg-sky-400 transition-all active:scale-95 group">
+                             <Plus className="h-4 w-4 mr-2 group-hover:rotate-90 transition-transform" /> Provision New Node
+                          </Button>
+                       </DialogTrigger>
+                       <DialogContent className="max-w-xl rounded-[3rem] p-10 bg-slate-950 border border-sky-900 text-white shadow-2xl">
+                          <DialogHeader className="space-y-4 mb-8">
+                             <div className="flex items-center gap-3">
+                                <div className="p-3 rounded-2xl bg-sky-500/10 border border-sky-500/20">
+                                   <Building className="h-6 w-6 text-sky-400" />
+                                </div>
+                                <span className="text-[10px] font-black uppercase text-sky-400 tracking-[0.4em] italic opacity-60">Provisioning Portal</span>
+                             </div>
+                             <DialogTitle className="text-4xl font-black italic uppercase tracking-tighter">Spawn New <span className="text-sky-400">Node.</span></DialogTitle>
+                             <DialogDescription className="text-white/40 font-bold italic">Enter institutional parameters for the secondary campus cluster.</DialogDescription>
+                          </DialogHeader>
+
+                          <div className="space-y-6">
+                             <div className="space-y-2">
+                                <Label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-1 italic">College Cluster Name</Label>
+                                <Input placeholder="E.g. Group C: West Arts Node" className="h-14 rounded-2xl bg-white/5 border-white/10 focus-visible:ring-sky-500 font-bold text-white italic" />
+                             </div>
+                             <div className="space-y-2">
+                                <Label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-1 italic">Secondary Admin Email</Label>
+                                <Input placeholder="admin.west@college.edu" className="h-14 rounded-2xl bg-white/5 border-white/10 focus-visible:ring-sky-500 font-bold text-sky-400 italic" />
+                             </div>
+                             <div className="grid grid-cols-2 gap-4">
+                                <Button variant="ghost" className="h-14 rounded-2xl text-white/40 font-black uppercase text-[10px] tracking-widest hover:bg-white/5">Abort</Button>
+                                <Button 
+                                  className="h-14 rounded-2xl bg-sky-500 hover:bg-white text-white hover:text-sky-950 font-black italic uppercase tracking-widest text-[10px] shadow-xl shadow-sky-500/20"
+                                  onClick={() => {
+                                      // Simulated Node Spawning Action
+                                      setSecondaryAdmins(prev => [
+                                          ...prev, 
+                                          { name: "Group C: West Arts Hub", email: "admin.west@college.edu", status: "Initializing", daysActive: 0 }
+                                      ])
+                                      alert("Institutional Node Provisioned Successfully. Node will launch with 'Clean State' Protocol.")
+                                  }}
+                                >
+                                   Finalize Protocol
+                                </Button>
+                             </div>
+                          </div>
+                       </DialogContent>
+                    </Dialog>
                  </CardHeader>
                  <CardContent className="p-10 md:p-14">
                     {/* MASTER NETWORK HEALTH TICKER */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", marginTop: "20px"}}>
                        <div className="p-8 rounded-[2rem] bg-white/5 border border-white/10 shadow-inner">
                           <p className="text-[10px] font-black uppercase text-sky-400 tracking-[0.2em] mb-1">Managed Institutes</p>
                           <p className="text-4xl font-black italic tracking-tighter">{secondaryAdmins.length} Nodes Online</p>
