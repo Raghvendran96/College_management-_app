@@ -1,0 +1,98 @@
+============================================================
+       COLLEGE MANAGEMENT SYSTEM (CMS) - LEARNING GUIDE
+============================================================
+Version: 1.0 (Mobile PWA & AI Integrated)
+Audience: Students, Faculty, and Administrators
+Format: Professional Training Manual
+
+------------------------------------------------------------
+1. INTRODUCTION
+------------------------------------------------------------
+Welcome to the next generation of College Management. This 
+system is a high-performance web platform built with 
+Next.js 16 and Supabase, designed to streamline academic 
+workflows through AI, Automation, and Mobile accessibility.
+
+------------------------------------------------------------
+2. STUDENT LEARNING PATH
+------------------------------------------------------------
+A. THE AI TUTOR (Killer Feature)
+1. Go to the main Dashboard.
+2. Click "Upload Syllabus" in the AI Tutor card.
+3. Select any PDF (less than 5MB).
+4. Type questions like "Summarize Chapter 1" or "Help me 
+   prepare for the midterm."
+5. The AI (Google Gemini) will analyze your specific file 
+   and provide custom guidance.
+
+B. ASSIGNMENTS & SUBMISSIONS
+1. Navigate to the "Assignments" tab.
+2. View active tasks and deadlines.
+3. Upload your work (PDF/DOCX/JPG).
+4. Once graded by a teacher, you will receive an automatic
+   email notification via the Resend API.
+
+C. FINANCE & FEES
+1. Check your "Fees Status" on the dashboard.
+2. View detailed breakdowns of pending and paid amounts.
+3. Download payment receipts directly from the portal.
+
+------------------------------------------------------------
+3. TEACHER / FACULTY MASTERY
+------------------------------------------------------------
+A. PORTAL ACCESS
+- Teachers have a dedicated "Faculty Portal" within the 
+  Dashboard.
+- Use the "Quick Demo Sheet" in the sidebar for login 
+  testing (teacher@college.edu / teacher123).
+
+B. GRADING WORKFLOW
+1. Select an assignment to review.
+2. Open student submissions (PDF/IMG).
+3. Assign a numeric grade and add feedback.
+4. Click "Submit Grade". The system handles the database 
+   update and student email notification simultaneously.
+
+------------------------------------------------------------
+4. ADMINISTRATOR & SYSTEM CONTROL
+------------------------------------------------------------
+A. INSTITUTION BRANDING
+1. Log in as Super Admin (admin@college.edu / admin123).
+2. Go to "Settings".
+3. Upload your College Logo (transparent PNG recommended).
+4. Update the "Institution Name". This will change the 
+   branding across the sidebar and every report page.
+
+B. SYSTEM MODES (DEMO VS LIVE)
+- Toggle "Live Mode" on when the institution is ready for 
+  official use. This hides all demo badges and credential 
+  sheets.
+
+C. THE DANGER ZONE (SYSTEM WIPE)
+- Located at the bottom of Settings.
+- Use "Clean Software" to wipe all attendance, assignment, 
+  and fee data while preserving the Admin accounts.
+- CAUTION: This action is irreversible. Always back up the 
+  database first.
+
+------------------------------------------------------------
+5. MOBILE APP (PWA) INSTALLATION
+------------------------------------------------------------
+- Open the CMS URL on your phone.
+- iOS: Tap "Share" -> "Add to Home Screen".
+- Android: Tap the three dots (menu) -> "Install App".
+- The system will now behave as a native mobile application 
+  with its own icon and offline capabilities.
+
+------------------------------------------------------------
+6. TECHNICAL STACK (DEVELOPER NOTES)
+------------------------------------------------------------
+- Framework: Next.js 16 (App Router + Turbopack)
+- Database: Supabase (Auth, DB, Storage)
+- Emails: Resend API
+- AI: Google Generative AI (Gemini 1.5)
+- Deployment: Vercel (Production)
+
+============================================================
+             © 2026 College Management System
+============================================================

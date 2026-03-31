@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
+import { SidebarProvider, SidebarTrigger } from "../components/ui/sidebar";
+import { AppSidebar } from "../components/app-sidebar";
 
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { TooltipProvider } from "../components/ui/tooltip";
 import type { Viewport } from "next";
 
 const geistSans = Geist({
@@ -32,30 +32,19 @@ export const viewport: Viewport = {
   themeColor: "#000000",
 };
 
+import { DashboardShell } from "../components/dashboard-shell";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <TooltipProvider>
-          <SidebarProvider>
-            <AppSidebar />
-            <main className="w-full">
-              <div className="flex items-center gap-2 px-4 py-2 border-b">
-                <SidebarTrigger />
-                <h1 className="font-semibold text-lg">College Portal</h1>
-              </div>
-              <div className="p-6">
-                {children}
-              </div>
-            </main>
-          </SidebarProvider>
-        </TooltipProvider>
+    <html lang="en" suppressHydrationWarning className="scroll-smooth">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <DashboardShell>
+          {children}
+        </DashboardShell>
       </body>
     </html>
   );
