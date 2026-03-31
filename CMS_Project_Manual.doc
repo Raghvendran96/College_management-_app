@@ -1,0 +1,111 @@
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+    <meta charset='utf-8'>
+    <title>CMS Project Manual</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; }
+        h1 { color: #000; border-bottom: 2px solid #000; padding-bottom: 10px; }
+        h2 { color: #2c3e50; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-top: 30px; }
+        h3 { color: #34495e; margin-top: 20px; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; border: 1px solid #ddd; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f2f2f2; font-weight: bold; }
+        .box { background: #f9f9f9; border: 1px solid #ddd; padding: 15px; border-radius: 5px; margin: 10px 0; }
+        .footer { font-size: 0.8em; color: #777; margin-top: 50px; text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>College Management System - Project Manual</h1>
+    <p>Handover Date: March 31, 2026 | Version: 1.0.0 (Production Ready)</p>
+
+    <h2>1. Project Scope & Features</h2>
+    <p>A comprehensive College Management System (CMS) featuring:</p>
+    <ul>
+        <li><strong>AI Tutor</strong>: PDF-based context learning using Gemini 1.5 Flash.</li>
+        <li><strong>Student Info</strong>: Success probability charts and academic tracking.</li>
+        <li><strong>Assignments</strong>: Full lifecycle from student upload to faculty grading.</li>
+        <li><strong>Finance Dashboard</strong>: Advanced fee filtering (Class/Student-wise) and CSV reports.</li>
+        <li><strong>Email Notifications</strong>: Resend integration for automated student alerts.</li>
+        <li><strong>Mobile App (PWA)</strong>: Full "Add to Home Screen" support on iOS and Android.</li>
+    </ul>
+
+    <h2>2. Demo Login Credentials</h2>
+    <div class="box">
+        <table>
+            <tr>
+                <th>Role</th>
+                <th>Username</th>
+                <th>Password</th>
+            </tr>
+            <tr>
+                <td><strong>Super Admin</strong></td>
+                <td>admin@college.edu</td>
+                <td>admin123</td>
+            </tr>
+            <tr>
+                <td><strong>Teacher</strong></td>
+                <td>teacher@college.edu</td>
+                <td>teacher123</td>
+            </tr>
+            <tr>
+                <td><strong>Student</strong></td>
+                <td>student@college.edu</td>
+                <td>student123</td>
+            </tr>
+        </table>
+    </div>
+
+    <h2>3. User Acceptance Testing (UAT) Checklist</h2>
+    <p>Please verify each of the following:</p>
+    <table>
+        <tr>
+            <th>Module</th>
+            <th>Test Step</th>
+            <th>Result</th>
+        </tr>
+        <tr>
+            <td>Authentication</td>
+            <td>Login as Admin, Teacher, and Student roles.</td>
+            <td>[ ] Pass / [ ] Fail</td>
+        </tr>
+        <tr>
+            <td>Branding</td>
+            <td>Upload Logo in Settings and verify it appears globally.</td>
+            <td>[ ] Pass / [ ] Fail</td>
+        </tr>
+        <tr>
+            <td>AI Tutor</td>
+            <td>Upload a PDF and ask a specific question.</td>
+            <td>[ ] Pass / [ ] Fail</td>
+        </tr>
+        <tr>
+            <td>Assignments</td>
+            <td>Submit work as Student, Grade work as Teacher.</td>
+            <td>[ ] Pass / [ ] Fail</td>
+        </tr>
+        <tr>
+            <td>Finance</td>
+            <td>Export a CSV report of overdue students.</td>
+            <td>[ ] Pass / [ ] Fail</td>
+        </tr>
+        <tr>
+            <td>System Admin</td>
+            <td>Toggle between "Demo" and "Live" modes.</td>
+            <td>[ ] Pass / [ ] Fail</td>
+        </tr>
+    </table>
+
+    <h2>4. Technical & Deployment Guide</h2>
+    <p>Detailed technical steps are provided in the PROJECT_GUIDE.md file. Briefly:</p>
+    <ol>
+        <li>Initialise Database: Run the SQL scripts in Supabase.</li>
+        <li>Set up Storage: Create 'submissions' and 'branding' buckets.</li>
+        <li>Configure Environment Variables: Supabase, Gemini, and Resend keys.</li>
+        <li>Deploy to Vercel: Connect your GitHub Repo for automatic builds.</li>
+    </ol>
+
+    <div class="footer">
+        &copy; 2026 College Management System | Developed for Professional Use
+    </div>
+</body>
+</html>
