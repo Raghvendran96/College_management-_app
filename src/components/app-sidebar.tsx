@@ -14,6 +14,8 @@ import {
   User,
   Building,
   School,
+  FileText,
+  ShieldCheck,
 } from "lucide-react"
 
 import {
@@ -48,6 +50,18 @@ const data = {
       url: "/dashboard/students",
       icon: Users,
       roles: ["admin", "teacher"],
+    },
+    {
+      title: "Faculty Directory",
+      url: "/dashboard/faculty",
+      icon: Users,
+      roles: ["admin", "teacher"],
+    },
+    {
+      title: "Exams Audit",
+      url: "/dashboard/exams",
+      icon: FileText,
+      roles: ["admin", "teacher", "student"],
     },
     {
       title: "My Profile",
@@ -108,16 +122,21 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   React.useEffect(() => {
     async function load() {
-      const data = await getInstitutionSettings()
-      setSettings(data)
+      const dbSettings = await getInstitutionSettings()
       
-      // Get role from cookie
-      const role = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("userRole="))
-        ?.split("=")[1]
+      // Get brand overrides from cookies (Handover Synapse)
+      const cookiesArr = document.cookie.split("; ")
+      const instName = cookiesArr.find((row) => row.startsWith("instName="))?.split("=")[1]
+      const instLogo = cookiesArr.find((row) => row.startsWith("instLogo="))?.split("=")[1]
+      const userRoleRaw = cookiesArr.find((row) => row.startsWith("userRole="))?.split("=")[1]
       
-      if (role) setUserRole(role)
+      setSettings({
+        name: instName ? decodeURIComponent(instName) : dbSettings.name,
+        logo_url: instLogo ? decodeURIComponent(instLogo) : dbSettings.logo_url,
+        is_demo_mode: dbSettings.is_demo_mode
+      })
+
+      if (userRoleRaw) setUserRole(userRoleRaw)
     }
     load()
   }, [])

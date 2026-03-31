@@ -12,8 +12,10 @@ import {
   Clock,
   Bot,
   Bell,
-  Activity
+  Activity,
+  Calendar
 } from "lucide-react";
+import { Button } from "@/components/ui/button"
 import { SuccessChart } from "@/components/dashboard/success-chart";
 import { AiTutor } from "@/components/dashboard/ai-tutor";
 import { 
@@ -24,13 +26,18 @@ import {
   CardDescription 
 } from "@/components/ui/card";
 
+import { OnboardingTrigger } from "@/components/dashboard/onboarding-trigger";
+
 // Main Dashboard Switcher
 export default async function DashboardPage() {
   const cookieStore = await cookies()
   const role = cookieStore.get("userRole")?.value || "student"
+  const isFreshInstall = cookieStore.get("isFreshInstall")?.value === "true"
+  const instNameRaw = cookieStore.get("instName")?.value || "Institutional Master Hub"
+  const instName = decodeURIComponent(instNameRaw)
 
   return (
-    <div className="space-y-8 pb-32">
+    <div className="space-y-8 pb-32 relative">
        {/* High-Impact Global Announcement Ticker */}
        <div className="relative h-12 bg-sky-950 overflow-hidden flex items-center rounded-3xl shadow-xl shadow-sky-950/20 group">
           <div className="absolute left-0 z-20 bg-sky-950 px-6 h-full flex items-center border-r border-sky-800">
@@ -41,22 +48,23 @@ export default async function DashboardPage() {
              <span className="text-sky-200/80 text-xs font-bold italic mx-10 uppercase tracking-widest leading-none flex items-center gap-2">
                 <BadgeAlert className="h-3 w-3" /> Final Semester Audit Commences in 48 Hours. Please verify fee clearance.
              </span>
-             <span className="text-sky-100 text-xs font-black italic mx-10 uppercase tracking-widest leading-none flex items-center gap-2">
-                <School className="h-3 w-3" /> Campus Digital Upgrade: New Neural Nodes online in Block-D.
-             </span>
-             <span className="text-sky-300 text-xs font-bold italic mx-10 uppercase tracking-widest leading-none flex items-center gap-2">
-                <Activity className="h-3 w-3" /> Global Health Check: 100% System Efficiency Reported at Principal's Office.
+             <span className="text-secondary-100 text-xs font-black italic mx-10 uppercase tracking-widest leading-none flex items-center gap-2">
+                <School className="h-3 w-3" /> Campus Digital Upgrade: New Neural Nodes online.
              </span>
           </div>
        </div>
 
-       {role === "admin" ? <AdminDashboard /> : role === "teacher" ? <TeacherDashboard /> : <StudentDashboard />}
+       {isFreshInstall && role === "admin" && (
+          <OnboardingTrigger />
+       )}
+
+       {role === "admin" ? <AdminDashboard instName={instName} /> : role === "teacher" ? <TeacherDashboard /> : <StudentDashboard />}
     </div>
   )
 }
 
 // --- ADMIN DASHBOARD ---
-function AdminDashboard() {
+function AdminDashboard({ instName }: { instName: string }) {
   const stats = [
     { title: "Total Revenue", value: "₹4.2M", icon: Wallet, color: "text-emerald-500", bg: "bg-emerald-50" },
     { title: "Active Students", value: "1,240", icon: Users, color: "text-sky-500", bg: "bg-sky-50" },
@@ -68,8 +76,8 @@ function AdminDashboard() {
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
       <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-slate-900 via-sky-950 to-indigo-950 p-10 text-white shadow-2xl">
         <div className="relative z-10">
-          <h2 className="text-4xl font-black italic tracking-tighter">Command Control: Admin</h2>
-          <p className="text-sky-300/80 max-w-md font-medium mt-2">Institutional performance is at 94% efficiency. Financial windows are closing in 3 days.</p>
+          <h2 className="text-4xl font-black italic tracking-tighter">Command Control: {instName}</h2>
+          <p className="text-sky-300/80 max-w-md font-medium mt-2">Institutional performance is at 94% efficiency. Global academic nodes are synchronized.</p>
         </div>
       </div>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -99,7 +107,17 @@ function AdminDashboard() {
           <CardContent className="p-6 space-y-4">
              <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-100 text-emerald-900 text-xs font-bold uppercase tracking-widest italic">Server Health: 100%</div>
              <div className="p-4 bg-sky-50 rounded-2xl border border-sky-100 text-sky-900 text-xs font-bold uppercase tracking-widest italic">Database Sync: Active</div>
-             <div className="p-4 bg-indigo-50 rounded-2xl border border-indigo-100 text-indigo-900 text-xs font-bold uppercase tracking-widest italic">Backups: Verified</div>
+             <div className="p-10 mt-4 rounded-2xl bg-sky-950 text-white space-y-4 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:rotate-12 transition-transform">
+                   <Calendar className="h-20 w-20" />
+                </div>
+                <h4 className="text-lg font-black italic uppercase tracking-tighter">Institutional Events</h4>
+                <div className="space-y-3">
+                   <p className="text-[9px] font-black uppercase tracking-widest text-sky-400 italic">Next Pulse: Annual Neural Summit</p>
+                   <p className="text-xs font-bold italic opacity-60">Venue: Grand Auditorium Node | April 25</p>
+                </div>
+                <Button className="w-full rounded-xl h-10 bg-white text-sky-950 hover:bg-sky-400 font-black italic uppercase text-[9px] tracking-widest">Manage Schedule</Button>
+             </div>
           </CardContent>
         </Card>
       </div>
