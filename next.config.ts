@@ -13,7 +13,9 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // We remove 'eslint' as it is handled by the CLI in Next.js 16
+  experimental: {
+    webpackBuildWorker: false, // Helps with worker memory issues on Vercel
+  },
 };
 
 export default withPWA(nextConfig);
