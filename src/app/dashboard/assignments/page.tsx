@@ -1,4 +1,5 @@
-import { useState } from "react"
+"use client"
+
 import { AssignmentsList } from "@/components/dashboard/assignments-list"
 import { GradingView } from "@/components/dashboard/grading-view"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
