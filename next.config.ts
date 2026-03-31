@@ -10,12 +10,10 @@ const withPWA = withPWAInit({
 
 const nextConfig: NextConfig = {
   turbopack: {},
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   typescript: {
     ignoreBuildErrors: true,
   },
+  // We remove 'eslint' as it is handled by the CLI in Next.js 16
 };
 
 export default withPWA(nextConfig);
