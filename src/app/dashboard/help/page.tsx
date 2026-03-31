@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import { HelpView } from "@/components/dashboard/help-view"
 import { Separator } from "@/components/ui/separator"
 
@@ -11,7 +12,9 @@ export default function HelpPage() {
         </p>
       </div>
       <Separator />
-      <HelpView />
+      <Suspense fallback={<div>Loading help...</div>}>
+        <HelpView />
+      </Suspense>
     </div>
   )
 }
