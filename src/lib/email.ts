@@ -1,8 +1,14 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const API_KEY = process.env.RESEND_API_KEY || "simulated_node_key";
+const resend = API_KEY !== "simulated_node_key" ? new Resend(API_KEY) : null;
 
 export async function sendEmail({ to, subject, html }: { to: string, subject: string, html: string }) {
+  if (!resend) {
+    console.warn("🔔 [INSTITUTIONAL ALERT NODE: SIMULATED]");
+    console.warn(`TO: ${to}\nSUBJECT: ${subject}\nNODE ACTIVE.`);
+    return { success: true, simulated: true };
+  }
   try {
     const { data, error } = await resend.emails.send({
       from: 'CMS Notifications <onboarding@resend.dev>',
@@ -50,6 +56,23 @@ export const emailTemplates = {
       </div>
       <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
       <p style="font-size: 12px; color: #666;">If you have already paid, please ignore this email.</p>
+    </div>
+  `,
+  demoRequestNotify: (name: string, email: string, phone: string, location: string, purpose: string) => `
+    <div style="font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 10px; background: #082f49; color: #fff;">
+      <h2 style="color: #38bdf8;">New Institutional Delegate! 👑</h2>
+      <p>Master Owner <strong>Raghvendra</strong>,</p>
+      <p>A new visitor has accessed your <strong>College Management System</strong> demo lattice.</p>
+      <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 5px; margin: 20px 0;">
+        <p><strong>Identity Persona:</strong> ${name}</p>
+        <p><strong>Contact Hub (Email):</strong> ${email}</p>
+        <p><strong>Phone Node:</strong> ${phone}</p>
+        <p><strong>Location Node:</strong> ${location}</p>
+        <p><strong>Institutional Purpose:</strong> ${purpose}</p>
+      </div>
+      <p>Log in to your <strong>Master Request Board</strong> to audit all pending demographic nodes.</p>
+      <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0;" />
+      <p style="font-size: 12px; opacity: 0.6;">This is an authoritative notification from your Flagship CMS Portal.</p>
     </div>
   `
 };

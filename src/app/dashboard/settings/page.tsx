@@ -25,6 +25,7 @@ import { Badge } from "../../../components/ui/badge"
 import { Input } from "../../../components/ui/input"
 import { Label } from "../../../components/ui/label"
 import { motion, AnimatePresence } from "framer-motion"
+import { sendEmail, emailTemplates } from "@/lib/email"
 import { 
   Dialog, 
   DialogContent, 
@@ -33,6 +34,12 @@ import {
   DialogTrigger,
   DialogDescription
 } from "../../../components/ui/dialog"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../../../components/ui/tabs"
 
 export default function SettingsPage() {
   const router = useRouter()
@@ -62,16 +69,53 @@ export default function SettingsPage() {
 
   const [showIdentityGate, setShowIdentityGate] = React.useState(true)
   const [userName, setUserName] = React.useState("")
+  const [userEmail, setUserEmail] = React.useState("")
+  const [userPhone, setUserPhone] = React.useState("")
+  const [userLocation, setUserLocation] = React.useState("")
   const [userPurpose, setUserPurpose] = React.useState("")
 
-  const handleIdentityVerify = () => {
-    if (userName.toLowerCase() === "raghvendra") {
+  const [isOwner, setIsOwner] = React.useState(false)
+  const [demoRequests, setDemoRequests] = React.useState([
+    { name: "John Smith", email: "john@tech.com", phone: "+1 234 567 890", location: "Singapore", status: "Evaluation" },
+    { name: "Sarah Connor", email: "sarah@future.io", phone: "+44 7788 9911", location: "London", status: "Audit" }
+  ])
+
+  // Provisioning State
+  const [provisioningNode, setProvisioningNode] = React.useState({ name: "", email: "" })
+
+  const handleIdentityVerify = async () => {
+    const masterName = "raghvendra"
+    const masterEmail = "raghvendran78@gmail.com"
+
+    if (userName.toLowerCase() === masterName && userEmail.toLowerCase() === masterEmail) {
+      setIsOwner(true)
       setShowIdentityGate(false)
-      alert("Master Executive Access Verified: Proceeding as Global Owner.")
+      alert("Master Owner Access Verified: Launching Global Request Board.")
     } else {
-      document.cookie = "isFreshInstall=true; path=/"
+      // MASTER CAPTURE SYNAPSE: Push to Registry
+      const newRequest = { 
+        name: userName, 
+        email: userEmail, 
+        phone: userPhone, 
+        location: userLocation, 
+        status: "Evaluation" 
+      }
+      setDemoRequests(prev => [newRequest, ...prev])
+
+      // Alert Node: Trigger Demographic Notification to Master
+      try {
+        await sendEmail({
+          to: masterEmail,
+          subject: `🔔 New Demo Delegate: ${userName}`,
+          html: emailTemplates.demoRequestNotify(userName, userEmail, userPhone, userLocation, userPurpose)
+        });
+      } catch (e) {
+        console.error("Failed to trigger alert node:", e);
+      }
+      
+      setIsOwner(false)
       setShowIdentityGate(false)
-      alert(`New Institutional Node Detected: Welcome ${userName}. System is launching in 'Clean State' for ${userPurpose}. Please use the Manual for seeding.`)
+      alert(`Institutional Delegate Node Verified: Welcome ${userName}. Launching High-Fidelity simulation.`)
     }
   }
 
@@ -128,14 +172,45 @@ export default function SettingsPage() {
                    </div>
 
                    <div className="space-y-6">
-                      <div className="space-y-2">
-                         <Label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-1 italic">Enter User Identity</Label>
-                         <Input 
-                            value={userName} 
-                            onChange={(e) => setUserName(e.target.value)}
-                            placeholder="Your Name..." 
-                            className="h-14 rounded-2xl bg-white/5 border-white/10 focus-visible:ring-sky-500 font-bold text-white italic" 
-                         />
+                      <div className="grid grid-cols-2 gap-4">
+                         <div className="space-y-2">
+                            <Label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-1 italic">Enter User Identity</Label>
+                            <Input 
+                               value={userName} 
+                               onChange={(e) => setUserName(e.target.value)}
+                               placeholder="Full Name..." 
+                               className="h-14 rounded-2xl bg-white/5 border-white/10 focus-visible:ring-sky-500 font-bold text-white italic" 
+                            />
+                         </div>
+                         <div className="space-y-2">
+                            <Label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-1 italic">Email ID (Verified)</Label>
+                            <Input 
+                               value={userEmail} 
+                               onChange={(e) => setUserEmail(e.target.value)}
+                               placeholder="you@college.edu" 
+                               className="h-14 rounded-2xl bg-white/5 border-white/10 focus-visible:ring-sky-500 font-bold text-sky-400 italic" 
+                            />
+                         </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                         <div className="space-y-2">
+                            <Label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-1 italic">Phone Number</Label>
+                            <Input 
+                               value={userPhone} 
+                               onChange={(e) => setUserPhone(e.target.value)}
+                               placeholder="+91..." 
+                               className="h-14 rounded-2xl bg-white/5 border-white/10 focus-visible:ring-sky-500 font-bold text-white italic" 
+                            />
+                         </div>
+                         <div className="space-y-2">
+                            <Label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-1 italic">Location Node</Label>
+                            <Input 
+                               value={userLocation} 
+                               onChange={(e) => setUserLocation(e.target.value)}
+                               placeholder="E.g. Lucknow / Delhi / Global" 
+                               className="h-14 rounded-2xl bg-white/5 border-white/10 focus-visible:ring-sky-500 font-bold text-sky-400 italic" 
+                            />
+                         </div>
                       </div>
                       <div className="space-y-2">
                          <Label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-1 italic">Institutional Purpose</Label>
@@ -270,22 +345,33 @@ export default function SettingsPage() {
                           <div className="space-y-6">
                              <div className="space-y-2">
                                 <Label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-1 italic">College Cluster Name</Label>
-                                <Input placeholder="E.g. Group C: West Arts Node" className="h-14 rounded-2xl bg-white/5 border-white/10 focus-visible:ring-sky-500 font-bold text-white italic" />
+                                <Input 
+                                   value={provisioningNode.name}
+                                   onChange={(e) => setProvisioningNode({...provisioningNode, name: e.target.value})}
+                                   placeholder="E.g. Group C: West Arts Node" 
+                                   className="h-14 rounded-2xl bg-white/5 border-white/10 focus-visible:ring-sky-500 font-bold text-white italic" 
+                                />
                              </div>
                              <div className="space-y-2">
                                 <Label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-1 italic">Secondary Admin Email</Label>
-                                <Input placeholder="admin.west@college.edu" className="h-14 rounded-2xl bg-white/5 border-white/10 focus-visible:ring-sky-500 font-bold text-sky-400 italic" />
+                                <Input 
+                                   value={provisioningNode.email}
+                                   onChange={(e) => setProvisioningNode({...provisioningNode, email: e.target.value})}
+                                   placeholder="admin.west@college.edu" 
+                                   className="h-14 rounded-2xl bg-white/5 border-white/10 focus-visible:ring-sky-500 font-bold text-sky-400 italic" 
+                                />
                              </div>
                              <div className="grid grid-cols-2 gap-4">
                                 <Button variant="ghost" className="h-14 rounded-2xl text-white/40 font-black uppercase text-[10px] tracking-widest hover:bg-white/5">Abort</Button>
                                 <Button 
                                   className="h-14 rounded-2xl bg-sky-500 hover:bg-white text-white hover:text-sky-950 font-black italic uppercase tracking-widest text-[10px] shadow-xl shadow-sky-500/20"
                                   onClick={() => {
-                                      // Simulated Node Spawning Action
+                                      if (!provisioningNode.name) return
                                       setSecondaryAdmins(prev => [
                                           ...prev, 
-                                          { name: "Group C: West Arts Hub", email: "admin.west@college.edu", status: "Initializing", daysActive: 0 }
+                                          { name: provisioningNode.name, email: provisioningNode.email, status: "Initializing", daysActive: 0 }
                                       ])
+                                      setProvisioningNode({ name: "", email: "" })
                                       alert("Institutional Node Provisioned Successfully. Node will launch with 'Clean State' Protocol.")
                                   }}
                                 >
@@ -297,6 +383,93 @@ export default function SettingsPage() {
                     </Dialog>
                  </CardHeader>
                  <CardContent className="p-10 md:p-14">
+                    {/* MASTER OWNER ANALYTICS: INSTITUTIONAL REQUEST BOARD */}
+                    {isOwner && (
+                       <motion.div 
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="mb-16 p-10 rounded-[3rem] bg-sky-400/5 border border-sky-400/20 shadow-2xl relative overflow-hidden"
+                       >
+                          <div className="absolute top-0 right-0 p-8 opacity-10">
+                              <ShieldCheck className="h-24 w-24 text-sky-400" />
+                          </div>
+                          <div className="flex items-center justify-between mb-10">
+                             <div>
+                                <h4 className="text-2xl font-black italic uppercase tracking-tighter text-sky-400">Institutional <span className="text-white">Audit Hub.</span></h4>
+                                <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 italic">Real-Time Demographic & Deployment Board</p>
+                             </div>
+                             <Badge className="bg-sky-500 text-sky-950 font-black italic text-[10px] px-4 pointer-events-none">Master Owner View</Badge>
+                          </div>
+
+                          {/* MASTER HEALTH INDEX TICKER */}
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                             <div className="p-8 rounded-[2rem] bg-white/5 border border-white/10 shadow-inner">
+                                <p className="text-[10px] font-black uppercase text-sky-400 tracking-[0.2em] mb-1">Demo Audit Registry</p>
+                                <p className="text-4xl font-black italic tracking-tighter">{demoRequests.length} Simulations</p>
+                             </div>
+                             <div className="p-8 rounded-[2rem] bg-white/5 border border-white/10 shadow-inner">
+                                <p className="text-[10px] font-black uppercase text-sky-400 tracking-[0.2em] mb-1">Live Institutional Hubs</p>
+                                <p className="text-4xl font-black italic tracking-tighter">00 Active Nodes</p>
+                             </div>
+                             <div className="p-8 rounded-[2rem] bg-white/5 border border-white/10 shadow-inner">
+                                <p className="text-[10px] font-black uppercase text-sky-400 tracking-[0.2em] mb-1">Network Exposure</p>
+                                <p className="text-4xl font-black italic tracking-tighter">{Math.round(secondaryAdmins.reduce((acc, curr) => acc + curr.daysActive, 0) / secondaryAdmins.length)} Total Days</p>
+                             </div>
+                          </div>
+                          
+                          <Tabs defaultValue="demo" className="w-full">
+                             <TabsList className="bg-white/5 border border-white/10 rounded-2xl p-1 mb-8 h-12">
+                                <TabsTrigger value="demo" className="rounded-xl px-8 font-black italic text-[10px] uppercase tracking-widest data-[state=active]:bg-sky-500 data-[state=active]:text-sky-950">Demo Node Audits</TabsTrigger>
+                                <TabsTrigger value="prod" className="rounded-xl px-8 font-black italic text-[10px] uppercase tracking-widest data-[state=active]:bg-sky-500 data-[state=active]:text-sky-950">Production Clusters</TabsTrigger>
+                             </TabsList>
+
+                             <TabsContent value="demo">
+                                <div className="overflow-x-auto">
+                                   <table className="w-full text-left">
+                                      <thead>
+                                         <tr className="border-b border-sky-400/10">
+                                            <th className="pb-4 text-[10px] font-black uppercase tracking-widest text-sky-400/60">Persona</th>
+                                            <th className="pb-4 text-[10px] font-black uppercase tracking-widest text-sky-400/60">Contact Hub</th>
+                                            <th className="pb-4 text-[10px] font-black uppercase tracking-widest text-sky-400/60">Location Node</th>
+                                            <th className="pb-4 text-[10px] font-black uppercase tracking-widest text-sky-400/60">Status</th>
+                                         </tr>
+                                      </thead>
+                                      <tbody className="divide-y divide-sky-400/10">
+                                         {demoRequests.map((req, i) => (
+                                            <tr key={i} className="group hover:bg-white/5 transition-all">
+                                               <td className="py-6 pr-4">
+                                                  <p className="text-lg font-black italic tracking-tight">{req.name}</p>
+                                                  <p className="text-[10px] font-bold uppercase tracking-widest text-sky-400/40">{req.email}</p>
+                                               </td>
+                                               <td className="py-6 px-4">
+                                                  <p className="text-xs font-bold text-white/60 tracking-wider flex items-center gap-2">
+                                                     <div className="w-1.5 h-1.5 rounded-full bg-sky-500" /> {req.phone}
+                                                  </p>
+                                               </td>
+                                               <td className="py-6 px-4">
+                                                  <p className="text-[10px] font-black uppercase tracking-widest text-sky-400 italic">{req.location}</p>
+                                               </td>
+                                               <td className="py-6 pl-4">
+                                                  <span className="inline-flex items-center px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                                                     {req.status}
+                                                  </span>
+                                               </td>
+                                            </tr>
+                                         ))}
+                                      </tbody>
+                                   </table>
+                                </div>
+                             </TabsContent>
+
+                             <TabsContent value="prod">
+                                <div className="p-10 rounded-2xl bg-white/5 border border-white/10 text-center">
+                                   <p className="text-white/40 font-bold italic">Waiting for delegates to finalize "Clean State" registries...</p>
+                                </div>
+                             </TabsContent>
+                          </Tabs>
+                       </motion.div>
+                    )}
+
                     {/* MASTER NETWORK HEALTH TICKER */}
                     <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", marginTop: "20px"}}>
                        <div className="p-8 rounded-[2rem] bg-white/5 border border-white/10 shadow-inner">

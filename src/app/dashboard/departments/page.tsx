@@ -1,3 +1,4 @@
+import React from "react"
 import { 
   Building, 
   Search, 
@@ -13,21 +14,45 @@ import {
   Zap,
   Globe,
   Globe2,
-  Settings
+  Settings,
+  ShieldCheck
 } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../../../components/ui/card"
 import { Button } from "../../../components/ui/button"
 import { Input } from "../../../components/ui/input"
 import { Badge } from "../../../components/ui/badge"
+import { Label } from "../../../components/ui/label"
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogTrigger,
+  DialogDescription
+} from "../../../components/ui/dialog"
 import Link from "next/link"
+import { motion, AnimatePresence } from "framer-motion"
 
 export default function DepartmentsPage() {
-  const departments = [
+  const [isAddDeptOpen, setIsAddDeptOpen] = React.useState(false)
+  const [departments, setDepartments] = React.useState([
     { name: "Computer Science", id: "CS", hod: "Dr. Ishani Gupta", students: 540, faculty: 32, performance: 94, icon: Code, color: "sky" },
     { name: "Artificial Intelligence", id: "AI", hod: "Prof. Rajesh Kumar", students: 120, faculty: 12, performance: 98, icon: Cpu, color: "indigo" },
     { name: "Electronics", id: "EC", hod: "Dr. Elena Gilbert", students: 380, faculty: 21, performance: 88, icon: Zap, color: "amber" },
     { name: "Civil Engineering", id: "CE", hod: "Prof. Stefan Salvatore", students: 250, faculty: 15, performance: 76, icon: Globe2, color: "emerald" },
-  ]
+  ])
+
+  const [newDept, setNewDept] = React.useState({
+    name: "", id: "", hod: "", students: 0, faculty: 0, performance: 100, icon: Building, color: "sky"
+  })
+
+  const handleAddDept = () => {
+    if (!newDept.name || !newDept.id) return
+    setDepartments([...departments, { ...newDept, icon: Building }])
+    setIsAddDeptOpen(false)
+    setNewDept({ name: "", id: "", hod: "", students: 0, faculty: 0, performance: 100, icon: Building, color: "sky" })
+    alert("Departmental Node Provisioned Successfully! 🏛️🚀")
+  }
 
   return (
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-1200 pb-32">
@@ -43,10 +68,66 @@ export default function DepartmentsPage() {
                 <p className="text-sky-300/80 max-w-lg font-medium italic text-lg mt-6">A world-class management portal to audit your departments, assign heads, and real-time student lifecycle monitoring.</p>
              </div>
              
-             <Button className="rounded-2xl h-14 px-10 bg-white hover:bg-sky-50 text-sky-950 font-black italic uppercase text-xs tracking-widest shadow-2xl shadow-white/10 group transition-all">
-                Add New Department
-                <Plus className="ml-2 h-4 w-4 group-hover:rotate-90 transition-transform" />
-             </Button>
+             <Dialog open={isAddDeptOpen} onOpenChange={setIsAddDeptOpen}>
+                <DialogTrigger asChild>
+                   <Button className="rounded-2xl h-14 px-10 bg-white hover:bg-sky-50 text-sky-950 font-black italic uppercase text-xs tracking-widest shadow-2xl shadow-white/10 group transition-all">
+                      Add New Department
+                      <Plus className="ml-2 h-4 w-4 group-hover:rotate-90 transition-transform" />
+                   </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[600px] bg-slate-950 border-sky-900 rounded-[3rem] p-10 text-white shadow-3xl">
+                   <DialogHeader className="space-y-4 mb-8">
+                      <div className="w-16 h-16 bg-sky-500/10 rounded-2xl flex items-center justify-center text-sky-400 border border-sky-500/20">
+                         <ShieldCheck className="h-8 w-8" />
+                      </div>
+                      <DialogTitle className="text-4xl font-black italic uppercase tracking-tighter italic">Provision <span className="text-sky-400">Node.</span></DialogTitle>
+                      <DialogDescription className="text-white/40 font-bold uppercase text-[10px] tracking-[0.4em] italic">Deploy New Institutional Cluster</DialogDescription>
+                   </DialogHeader>
+
+                   <div className="grid grid-cols-2 gap-8">
+                      <div className="space-y-3">
+                         <Label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-1 italic">Dept Name</Label>
+                         <Input 
+                            value={newDept.name}
+                            onChange={(e) => setNewDept({...newDept, name: e.target.value})}
+                            className="bg-white/5 border-white/10 h-14 rounded-2xl focus-visible:ring-sky-500 font-bold text-white italic" 
+                         />
+                      </div>
+                      <div className="space-y-3">
+                         <Label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-1 italic">Dept Code</Label>
+                         <Input 
+                            value={newDept.id}
+                            onChange={(e) => setNewDept({...newDept, id: e.target.value})}
+                            className="bg-white/5 border-white/10 h-14 rounded-2xl focus-visible:ring-sky-500 font-bold text-sky-400 italic" 
+                         />
+                      </div>
+                      <div className="space-y-3">
+                         <Label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-1 italic">Head of Dept</Label>
+                         <Input 
+                            value={newDept.hod}
+                            onChange={(e) => setNewDept({...newDept, hod: e.target.value})}
+                            className="bg-white/5 border-white/10 h-14 rounded-2xl focus-visible:ring-sky-500 font-bold text-white italic" 
+                         />
+                      </div>
+                      <div className="space-y-3">
+                         <Label className="text-[10px] font-black uppercase tracking-widest text-white/40 ml-1 italic">Initial Capacity</Label>
+                         <Input 
+                            type="number"
+                            value={newDept.students}
+                            onChange={(e) => setNewDept({...newDept, students: parseInt(e.target.value)})}
+                            className="bg-white/5 border-white/10 h-14 rounded-2xl focus-visible:ring-sky-500 font-bold text-sky-400 italic" 
+                         />
+                      </div>
+                   </div>
+
+                   <Button 
+                      onClick={handleAddDept}
+                      className="w-full h-16 rounded-3xl mt-12 bg-sky-500 hover:bg-white text-white hover:text-sky-950 font-black italic uppercase tracking-widest shadow-2xl shadow-sky-500/20 transition-all active:scale-95"
+                   >
+                      Finalize Node Deployment
+                   </Button>
+                </DialogContent>
+             </Dialog>
           </div>
           <div className="absolute top-0 right-0 w-96 h-96 bg-sky-400/10 rounded-full blur-[150px] animate-pulse"></div>
        </div>

@@ -3,12 +3,16 @@
 
 ---
 
-## 🛡️ SECTION 0: INSTITUTIONAL IDENTITY CHALLENGE
-**Master Identity Node**: `raghvendra`
+## 🛡️ SECTION 0: INSTITUTIONAL HEALTH INDEX
+**Master Identity Lock**: `raghvendra` / `raghvendran78@gmail.com`
 
-Before accessing the system, you must undergo an **Identity Node Audit**.
-*   **Verified Owner**: Enter **"raghvendra"** to unlock Master Executive Mode (Proceed Normally).
-*   **New Delegate**: Any other name launches the **"Fresh Tenant" Protocol**. The system will launch as a **Blank Slate**, requiring you to provision your own institutional hub.
+Before accessing the global lattice, all visitors must undergo a **Demographic Identity Audit** (Name, Email, Phone, Location).
+*   **Verified Owner**: Unlock the **Master Request Board** featuring the **Institutional Health Index**—a real-time ticker that displays:
+    *   **Total Demo Audits**: Instant count of simulation explorers.
+    *   **Production Cluster Hubs**: Instant count of live institutional nodes.
+*   **Dual-Registry Audit**: Toggle between **Demo Node Audits** and **Production Clusters** to audit visitor persona details in real-time.
+*   **Direct Alert Node**: Every new delegate instantly triggers an **Automated Briefing Alert** to the owner (**raghvendran78@gmail.com**) via the CMS Notification Synapse.
+*   **Full-Access Audit**: After verification, delegates gain **FULL** access to audit all software parts—Finance, Students, Academics, and IDs—before final production handover.
 
 ---
 
@@ -46,9 +50,6 @@ Faculty audits scholarly documents directly and filters the cohort by **Class-Se
 ### 💳 4. Fiscal Command (Finance)
 A high-fidelity payment simulator allowing students to clear tuition via **Scan & Pay (QR)** and **Global Card** nodes.
 
-### ⚙️ 5. Settings Hub (Networks)
-Master Admin provisions **Secondary Institutional Nodes** and monitors the **Usage Longevity** (Total Days Active) of the global campus lattice.
-
 ---
 
 ## 🚀 SECTION III: THE 'GO LIVE' HANDOVER PROTOCOL
@@ -56,7 +57,7 @@ This action definitive action migrates the system to Production.
 
 1.  **Navigate**: Open **Settings Hub > System Danger Zone**.
 2.  **Action**: Launch the **Go Live protocol**.
-3.  **Finalize**: Enter new production admin credentials.
+3.  **Finalization**: Enter new production admin credentials.
 4.  **Result**: The system purges all demo entries and **Auto-Opens the Guide Manual** for initial institutional seeding.
 
 ---
